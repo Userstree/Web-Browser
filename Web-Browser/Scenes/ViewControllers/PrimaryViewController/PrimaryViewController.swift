@@ -7,13 +7,17 @@
 
 import UIKit
 
-class PrimaryViewController: BaseViewController, TableViewControllerDelegate {
+class PrimaryViewController: BaseViewController, TableViewControllerDelegate, AlertViewPresentable {
     var websitesList = [
         Website(title: "Apple", urlString: "apple.com", isLiked: false),
         Website(title: "YouTube", urlString: "youtube.com", isLiked: false),
     ]
     private var webSitesTableViewDelegate: TableViewDelegate?
-    private var webSitesTableViewDataSource: TableViewDataSource?
+    private var webSitesTableViewDataSource: TableViewDataSource? = nil {
+        didSet {
+            websitesTableView.reloadData()
+        }
+    }
 
     private var websitesSegmentedControl: UISegmentedControl = {
         let items = ["List", "Favorite"]
@@ -42,16 +46,23 @@ class PrimaryViewController: BaseViewController, TableViewControllerDelegate {
     }
 
     @objc private func addBarButtonTapped() {
+        presentAddWebSiteActivity { [unowned self] websiteTitleString, websiteURLString in
+            websitesList.append(Website(title: websiteTitleString, urlString: websiteURLString, isLiked: false))
+            webSitesTableViewDataSource?.data.append(Website(title: websiteTitleString, urlString: websiteURLString, isLiked: false))
+            websitesTableView.reloadData()
+            print(websiteTitleString, " and ", websiteURLString)
+        }
     }
 
     func selectedCell(index: Int) {
+        print(websitesList.count, " and index is ", index)
         let secondaryVC = parent?.splitViewController?.viewControllers[1] as! SecondaryViewController
         secondaryVC.webPageURLString = websitesList[index].urlString
     }
 
     private func configureViews() {
         webSitesTableViewDelegate = TableViewDelegate(withDelegate: self)
-        webSitesTableViewDataSource = TableViewDataSource(withData: websitesList)
+        webSitesTableViewDataSource = TableViewDataSource()
         websitesTableView.delegate = webSitesTableViewDelegate
         websitesTableView.dataSource = webSitesTableViewDataSource
 

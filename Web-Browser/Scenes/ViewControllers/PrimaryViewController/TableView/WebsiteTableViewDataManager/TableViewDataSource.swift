@@ -7,10 +7,19 @@ import UIKit
 
 class TableViewDataSource: NSObject, UITableViewDataSource {
 
-    var data = [Website]()
+    var websitesList = [
+        Website(title: "Apple", urlString: "apple.com", isLiked: false),
+        Website(title: "YouTube", urlString: "youtube.com", isLiked: false),
+    ]
 
-    init(withData data: [Website]) {
-        self.data = data
+    var data = [Website]() {
+        didSet{
+            print("dataHasChanged")
+        }
+    }
+
+    override init() {
+        data = websitesList
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

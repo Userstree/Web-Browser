@@ -7,8 +7,8 @@ import UIKit
 
 class SplitViewController: UISplitViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         maximumPrimaryColumnWidth = 256
     }
 }

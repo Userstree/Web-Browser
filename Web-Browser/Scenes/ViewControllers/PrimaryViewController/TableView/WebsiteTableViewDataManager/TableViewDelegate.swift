@@ -19,4 +19,8 @@ class TableViewDelegate: NSObject, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         delegate?.selectedCell(index: indexPath.row)
     }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
 }
