@@ -7,8 +7,11 @@
 
 import UIKit
 
-class PrimaryViewController: UIViewController, ViewControllerDelegate {
-    var websites = [String]()
+class PrimaryViewController: BaseViewController, TableViewControllerDelegate {
+    var websitesList = [
+        Website(title: "Apple", urlString: "apple.com", isLiked: false),
+        Website(title: "YouTube", urlString: "youtube.com", isLiked: false),
+    ]
     private var webSitesTableViewDelegate: TableViewDelegate?
     private var webSitesTableViewDataSource: TableViewDataSource?
 
@@ -21,9 +24,8 @@ class PrimaryViewController: UIViewController, ViewControllerDelegate {
     }()
 
     private let websitesTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        let tableView = UITableView(autoResMasksOnConstraints: false)
+        tableView.register(WebsiteTableViewCell.self, forCellReuseIdentifier: "WebsiteTableViewCell")
         return tableView
     }()
 
@@ -40,16 +42,16 @@ class PrimaryViewController: UIViewController, ViewControllerDelegate {
     }
 
     @objc private func addBarButtonTapped() {
-
     }
 
     func selectedCell(index: Int) {
-        print("row at ", index)
+        let secondaryVC = parent?.splitViewController?.viewControllers[1] as! SecondaryViewController
+        secondaryVC.webPageURLString = websitesList[index].urlString
     }
 
     private func configureViews() {
         webSitesTableViewDelegate = TableViewDelegate(withDelegate: self)
-        webSitesTableViewDataSource = TableViewDataSource(withData: websites)
+        webSitesTableViewDataSource = TableViewDataSource(withData: websitesList)
         websitesTableView.delegate = webSitesTableViewDelegate
         websitesTableView.dataSource = webSitesTableViewDataSource
 
@@ -61,14 +63,11 @@ class PrimaryViewController: UIViewController, ViewControllerDelegate {
         NSLayoutConstraint.activate([
             websitesSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             websitesSegmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            websitesSegmentedControl.widthAnchor.constraint(equalToConstant: 100),
-            websitesSegmentedControl.heightAnchor.constraint(equalToConstant: 25),
 
-            websitesTableView.topAnchor.constraint(equalTo: websitesSegmentedControl.topAnchor, constant: 10),
+            websitesTableView.topAnchor.constraint(equalTo: websitesSegmentedControl.bottomAnchor, constant: 10),
             websitesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             websitesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             websitesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
 }
-

@@ -5,20 +5,35 @@
 import UIKit
 import WebKit
 
-class SecondaryViewController: UIViewController {
+class SecondaryViewController: BaseViewController {
 
-    private var webPageURL: URL?
-    init(webPageUrlString: String) {
-        let httpString = "https://"
-        let urlString = httpString + webPageUrlString
-        webPageURL = URL(string: urlString)!
+    private var webPageURL: URL
+
+    private let httpString = "https://"
+
+    var webPageURLString: String = "" {
+        didSet {
+            webPageURL = URL(string: httpString + webPageURLString)!
+            startWebView()
+        }
     }
+
+    init(webPageUrlString: String) {
+        let urlString = httpString + webPageUrlString
+        self.webPageURL = URL(string: urlString)!
+        super.init(nibName: nil, bundle: nil)
+    }
+
     convenience init() {
-        self.init(webPageUrlString: "www.apple.com")
+        self.init(webPageUrlString: "apple.com")
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init?(coder: NSCoder) hasn't been implemented")
     }
 
     private var webView: WKWebView = {
-        let view = WKWebView()
+        let view = WKWebView(autoResMasksOnConstraints: false)
         return view
     }()
 
@@ -26,6 +41,11 @@ class SecondaryViewController: UIViewController {
         super.viewDidLoad()
 
         configureViews()
+        startWebView()
+    }
+
+    private func startWebView() -> WKNavigation? {
+        webView.load(URLRequest(url: webPageURL, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: .zero))
     }
 
     private func configureViews() {
@@ -33,14 +53,14 @@ class SecondaryViewController: UIViewController {
 
         makeConstraints()
     }
+
     private func makeConstraints() {
         NSLayoutConstraint.activate([
-            webView.topAnchor.constraint(equalTo: view.topAnchor),
+            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
-
 }
 

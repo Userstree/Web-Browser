@@ -7,9 +7,9 @@ import UIKit
 
 class TableViewDataSource: NSObject, UITableViewDataSource {
 
-    var data = [String]()
+    var data = [Website]()
 
-    init(withData data: [String]) {
+    init(withData data: [Website]) {
         self.data = data
     }
 
@@ -18,7 +18,8 @@ class TableViewDataSource: NSObject, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: WebsiteTableViewCell.identifier, for: indexPath) as! WebsiteTableViewCell
+        cell.configure(with: data[indexPath.row])
         return cell
     }
 }

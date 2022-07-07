@@ -4,14 +4,14 @@
 
 import UIKit
 
-protocol ViewControllerDelegate: AnyObject {
+protocol TableViewControllerDelegate: AnyObject {
     func selectedCell(index: Int)
 }
 
 class TableViewDelegate: NSObject, UITableViewDelegate {
-    weak var delegate: ViewControllerDelegate?
+    weak var delegate: TableViewControllerDelegate?
 
-    init(withDelegate delegate: ViewControllerDelegate) {
+    init(withDelegate delegate: TableViewControllerDelegate) {
         self.delegate = delegate
     }
 
