@@ -17,14 +17,12 @@
 		F884390958B644E9F41F2BBF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8843ABEAA0E8C15F9DC4A11 /* SceneDelegate.swift */; };
 		F8843BC5A82ED11EFFAE8E7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F88439FB777C9172BA111ADD /* Assets.xcassets */; };
 		F8843CAD181C59A4D455718C /* WebsiteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F884394F9935F294AA55907E /* WebsiteTableViewCell.swift */; };
-		F8843ECD90DDF09F264B175E /* WebsiteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8843295C534B1CAA57590B1 /* WebsiteTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		05B1A1402874230600594847 /* Web-Browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Web-Browser.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		05B1A14F2874230600594847 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F88432750B4C6A935AD1A307 /* SecondaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondaryViewController.swift; sourceTree = "<group>"; };
-		F8843295C534B1CAA57590B1 /* WebsiteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebsiteTableViewCell.swift; sourceTree = "<group>"; };
 		F88434CBCD7668D1DE1EB9EB /* SplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		F88436021A4CCC76D419DFCC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F88437D52E1EB117058EF75E /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
@@ -140,7 +138,6 @@
 			isa = PBXGroup;
 			children = (
 				F8843D9001974B3B6EA201D1 /* PrimaryViewController.swift */,
-				F8843295C534B1CAA57590B1 /* WebsiteTableViewCell.swift */,
 				F8843603254780ECAC669FFB /* TableView */,
 			);
 			path = PrimaryViewController;
@@ -228,7 +225,6 @@
 				F884390958B644E9F41F2BBF /* SceneDelegate.swift in Sources */,
 				F884378133F1EBF836E8FC71 /* SplitViewController.swift in Sources */,
 				F88432DED497AA1A33A2D4BA /* PrimaryViewController.swift in Sources */,
-				F8843ECD90DDF09F264B175E /* WebsiteTableViewCell.swift in Sources */,
 				F8843CAD181C59A4D455718C /* WebsiteTableViewCell.swift in Sources */,
 				F884325765283BD59E9B4B54 /* TableViewDataSource.swift in Sources */,
 				F88436B4CD4DF86B6FAA7C13 /* TableViewDelegate.swift in Sources */,

@@ -8,7 +8,6 @@
 import UIKit
 
 class PrimaryViewController: UIViewController, ViewControllerDelegate {
-
     var websites = [String]()
     private var webSitesTableViewDelegate: TableViewDelegate?
     private var webSitesTableViewDataSource: TableViewDataSource?
