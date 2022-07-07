@@ -7,10 +7,34 @@ import WebKit
 
 class SecondaryViewController: BaseViewController {
 
+    var websiteTitle: String = "Apple" {
+        didSet {
+            navigationItem.title = websiteTitle
+        }
+    }
+    var isLiked: Bool = false {
+        didSet {
+            if isLiked {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(
+                        image: UIImage(systemName: "heart.fill"),
+                        style: .plain,
+                        target: self,
+                        action: #selector(likeButtonTapped)
+                )
+            } else {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(
+                        image: UIImage(systemName: "heart"),
+                        style: .plain,
+                        target: self,
+                        action: #selector(likeButtonTapped)
+                )
+            }
+            navigationItem.rightBarButtonItem?.tintColor = .red
+        }
+    }
+
     private var webPageURL: URL
-
     private let httpString = "https://"
-
     var webPageURLString: String = "" {
         didSet {
             webPageURL = URL(string: httpString + webPageURLString)!
@@ -40,8 +64,29 @@ class SecondaryViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureNavigationItems()
         configureViews()
         startWebView()
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        navigationItem.rightBarButtonItem?.tintColor = .red
+    }
+
+    private func configureNavigationItems() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(systemName: "heart"),
+                style: .plain,
+                target: self,
+                action: #selector(likeButtonTapped)
+        )
+        navigationItem.rightBarButtonItem?.tintColor = .red
+        navigationItem.title = websiteTitle
+    }
+
+    @objc private func likeButtonTapped() {
+        isLiked = !isLiked
     }
 
     private func startWebView() -> WKNavigation? {
