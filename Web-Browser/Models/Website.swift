@@ -10,8 +10,14 @@ protocol TableCellDataSource {
     var urlString:  String { get set }
 }
 
-struct Website: TableCellDataSource {
+class Website: TableCellDataSource {
     var title: String = ""
     var urlString: String = ""
     var isLiked: Bool = false
+
+    init(title: String, urlString: String, isLiked: Bool) {
+        self.title = title
+        self.urlString = urlString
+        self.isLiked = isLiked
+    }
 }

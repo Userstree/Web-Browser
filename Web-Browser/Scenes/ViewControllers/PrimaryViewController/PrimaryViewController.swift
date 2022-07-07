@@ -7,11 +7,26 @@
 
 import UIKit
 
-class PrimaryViewController: BaseViewController, TableViewControllerDelegate, AlertViewPresentable {
+typealias TableFunctionable = WebsiteLikeButtonDelegate & TableViewControllerDelegate
+
+class PrimaryViewController: BaseViewController, TableFunctionable, AlertViewPresentable {
+    private var categoryIndex: Int = 0 {
+        didSet {
+            if categoryIndex == 0 {
+                webSitesTableViewDataSource?.data = websitesList
+            } else {
+                webSitesTableViewDataSource?.data = favoriteWebsitesList
+            }
+            websitesTableView.reloadData()
+        }
+    }
+
     var websitesList = [
         Website(title: "Apple", urlString: "apple.com", isLiked: false),
         Website(title: "YouTube", urlString: "youtube.com", isLiked: false),
     ]
+    var favoriteWebsitesList = [Website]()
+
     private var webSitesTableViewDelegate: TableViewDelegate?
     private var webSitesTableViewDataSource: TableViewDataSource? = nil {
         didSet {
@@ -19,11 +34,12 @@ class PrimaryViewController: BaseViewController, TableViewControllerDelegate, Al
         }
     }
 
-    private var websitesSegmentedControl: UISegmentedControl = {
+    private lazy var websitesSegmentedControl: UISegmentedControl = {
         let items = ["List", "Favorite"]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(categoryIndexTapped(_:)), for: .valueChanged)
         return segmentedControl
     }()
 
@@ -45,6 +61,10 @@ class PrimaryViewController: BaseViewController, TableViewControllerDelegate, Al
         navigationItem.title = "Websites"
     }
 
+    @objc private func categoryIndexTapped(_ sender: UISegmentedControl) {
+        categoryIndex = sender.selectedSegmentIndex
+    }
+
     @objc private func addBarButtonTapped() {
         presentAddWebSiteActivity { [unowned self] websiteTitleString, websiteURLString in
             websitesList.append(Website(title: websiteTitleString, urlString: websiteURLString, isLiked: false))
@@ -54,8 +74,17 @@ class PrimaryViewController: BaseViewController, TableViewControllerDelegate, Al
         }
     }
 
+    func didTapLiked(atIndex index: Int, isLiked: Bool) {
+        if isLiked {
+            favoriteWebsitesList.append(websitesList[index])
+        } else {
+            favoriteWebsitesList.remove(at: index)
+        }
+        print("favoriteWebsitesList is ", favoriteWebsitesList)
+        websitesTableView.reloadData()
+    }
+
     func selectedCell(index: Int) {
-        print(websitesList.count, " and index is ", index)
         let secondaryVC = parent?.splitViewController?.viewControllers[1] as! SecondaryViewController
         secondaryVC.webPageURLString = websitesList[index].urlString
     }
@@ -69,7 +98,6 @@ class PrimaryViewController: BaseViewController, TableViewControllerDelegate, Al
         [websitesSegmentedControl, websitesTableView].forEach(view.addSubview)
         makeConstraints()
     }
-
     private func makeConstraints() {
         NSLayoutConstraint.activate([
             websitesSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

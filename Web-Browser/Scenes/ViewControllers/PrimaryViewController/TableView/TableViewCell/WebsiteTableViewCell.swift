@@ -4,9 +4,15 @@
 
 import UIKit
 
+protocol WebsiteLikeButtonDelegate: AnyObject {
+    func didTapLiked(atIndex index: Int, isLiked: Bool)
+}
 
 class WebsiteTableViewCell: UITableViewCell {
     static let identifier = "WebsiteTableViewCell"
+
+    weak var delegate: WebsiteLikeButtonDelegate?
+    private var cellIndex: Int = 0
 
     private var isLiked: Bool = false {
         didSet {
@@ -15,6 +21,7 @@ class WebsiteTableViewCell: UITableViewCell {
             } else {
                 likeButton.setImage(UIImage(systemName: "heart")!, for: .normal)
             }
+            delegate?.didTapLiked(atIndex: cellIndex, isLiked: isLiked)
         }
     }
 
@@ -39,11 +46,13 @@ class WebsiteTableViewCell: UITableViewCell {
 
     @objc private func likeButtonTapped() {
         isLiked = !isLiked
+        delegate?.didTapLiked(atIndex: 1,isLiked: isLiked)
     }
 
-    func configure(with dataSource: TableCellDataSource) {
+    func configure(with dataSource: TableCellDataSource, index: Int) {
         title.text = dataSource.title
         isLiked = dataSource.isLiked
+        cellIndex = index
     }
 
     private func configureViews() {
