@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		05B1A1502874230600594847 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B1A14E2874230600594847 /* LaunchScreen.storyboard */; };
+		615B4A8B0CF7823990CA4DE4 /* ViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B4D9CAD0567C9DE7772DA /* ViewModelImpl.swift */; };
 		615B4C4C6B2314C989D6BE6B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B4DAF9160810EC600C1EE /* CoreDataStack.swift */; };
-		615B4DA81F5D1C81D78222B6 /* CoreDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B4FB28A16B4955237CA8F /* CoreDataProvider.swift */; };
+		615B4CA230F0FD0C469A9F5A /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B4B88ABF1880F131696B2 /* ViewModel.swift */; };
 		C2DD00492877B87D00F20EEB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C2DD00472877B87D00F20EEB /* Model.xcdatamodeld */; };
 		F8843053FE45C3D0EA437CA5 /* SecondaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88432750B4C6A935AD1A307 /* SecondaryViewController.swift */; };
 		F88430C4B1E401F4FE1074AC /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8843BA48EFDE76951AF0BB4 /* Factory.swift */; };
@@ -30,8 +31,9 @@
 /* Begin PBXFileReference section */
 		05B1A1402874230600594847 /* Web-Browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Web-Browser.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		05B1A14F2874230600594847 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		615B4B88ABF1880F131696B2 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		615B4D9CAD0567C9DE7772DA /* ViewModelImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModelImpl.swift; sourceTree = "<group>"; };
 		615B4DAF9160810EC600C1EE /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		615B4FB28A16B4955237CA8F /* CoreDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataProvider.swift; sourceTree = "<group>"; };
 		C2DD00482877B87D00F20EEB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		F88432750B4C6A935AD1A307 /* SecondaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondaryViewController.swift; sourceTree = "<group>"; };
 		F88436021A4CCC76D419DFCC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				C2DD00472877B87D00F20EEB /* Model.xcdatamodeld */,
-				615B4FB28A16B4955237CA8F /* CoreDataProvider.swift */,
 				615B4DAF9160810EC600C1EE /* CoreDataStack.swift */,
 			);
 			path = CoreData;
@@ -143,6 +144,8 @@
 				F884367C9AE4BB3435A43AE4 /* BaseViewController.swift */,
 				F8843F1772FFB019368DCCDC /* SplitViewController.swift */,
 				F8843B2ABFD1D3F5A1A9B756 /* Helpers */,
+				615B4B88ABF1880F131696B2 /* ViewModel.swift */,
+				615B4D9CAD0567C9DE7772DA /* ViewModelImpl.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -291,8 +294,9 @@
 				F88432619A954CC6659355A0 /* Website.swift in Sources */,
 				F884334C05AF2DD976D0D5D3 /* UIView+ext.swift in Sources */,
 				F8843D333E60D4FB70CC6010 /* AlertView.swift in Sources */,
-				615B4DA81F5D1C81D78222B6 /* CoreDataProvider.swift in Sources */,
 				615B4C4C6B2314C989D6BE6B /* CoreDataStack.swift in Sources */,
+				615B4CA230F0FD0C469A9F5A /* ViewModel.swift in Sources */,
+				615B4A8B0CF7823990CA4DE4 /* ViewModelImpl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import CoreData
 
 protocol TableCellDataSource {
     var title:      String { get set }

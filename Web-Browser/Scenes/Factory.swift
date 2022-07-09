@@ -11,13 +11,13 @@ protocol Factory {
 
 class FactoryImpl: Factory {
     func makeViewController() -> UISplitViewController {
-        let primaryViewController = PrimaryViewController()
+        let viewModel = ViewModelImpl()
+        let primaryViewController = PrimaryViewController(viewModel: viewModel)
         let primaryNavController = UINavigationController(rootViewController: primaryViewController)
         let secondaryViewController = SecondaryViewController()
-        let secondaryNavController = UINavigationController(rootViewController: secondaryViewController)
 
         let splitViewController = SplitViewController()
-        splitViewController.viewControllers = [primaryNavController, secondaryNavController]
+        splitViewController.viewControllers = [primaryNavController, secondaryViewController]
         return splitViewController
     }
 }

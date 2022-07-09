@@ -6,22 +6,22 @@ import UIKit
 
 
 class TableViewDataSource: NSObject, UITableViewDataSource, WebsiteLikeButtonDelegate {
-    var websitesList = [
-        Website(title: "Apple", urlString: "apple.com", isLiked: false),
-        Website(title: "YouTube", urlString: "youtube.com", isLiked: false),
-    ]
     var favoriteWebsitesList = [Website]()
     var data = [Website]() {
         didSet {
-            print("dataHasChanged")
+//            print("dataHasChanged \n")
         }
     }
 
-    override init() {
-        data = websitesList
+    private var viewModel: ViewModel!
+
+    init(viewModel: ViewModel) {
+        data = viewModel.websitesList
+        self.viewModel = viewModel
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        viewModel.websitesList.count
         data.count
     }
 
@@ -34,9 +34,18 @@ class TableViewDataSource: NSObject, UITableViewDataSource, WebsiteLikeButtonDel
 
     func didTapLiked(atIndex index: Int, isLiked: Bool) {
         if isLiked {
-            favoriteWebsitesList.append(websitesList[index])
+            favoriteWebsitesList.append(data[index])
+            data[index].isLiked = !data[index].isLiked
         } else {
 //            favoriteWebsitesList.popLast()
+        }
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            viewModel.remove(website: viewModel.websitesList[indexPath.row])
+            data.remove(at: indexPath.row)
+            tableView.reloadData()
         }
     }
 }

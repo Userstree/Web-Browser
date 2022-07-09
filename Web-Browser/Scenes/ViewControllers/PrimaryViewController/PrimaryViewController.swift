@@ -7,13 +7,23 @@
 
 import UIKit
 
-typealias TableFunctionable = WebsiteLikeButtonDelegate & TableViewControllerDelegate
 
-class PrimaryViewController: BaseViewController, TableFunctionable, AlertViewPresentable {
+class PrimaryViewController: BaseViewController, TableViewControllerDelegate, AlertViewPresentable {
+    private var viewModel: ViewModel!
+
+    init(viewModel: ViewModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel = viewModel
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private var categoryIndex: Int = 0 {
         didSet {
             if categoryIndex == 0 {
-                webSitesTableViewDataSource?.data = websitesList
+                webSitesTableViewDataSource?.data = viewModel.websitesList
             } else {
                 webSitesTableViewDataSource?.data = favoriteWebsitesList
             }
@@ -21,16 +31,13 @@ class PrimaryViewController: BaseViewController, TableFunctionable, AlertViewPre
         }
     }
 
-    var websitesList = [
-        Website(title: "Apple", urlString: "apple.com", isLiked: false),
-        Website(title: "YouTube", urlString: "youtube.com", isLiked: false),
-    ]
     var favoriteWebsitesList = [Website]()
 
     private var webSitesTableViewDelegate: TableViewDelegate?
     private var webSitesTableViewDataSource: TableViewDataSource? = nil {
         didSet {
             websitesTableView.reloadData()
+            favoriteWebsitesList = webSitesTableViewDataSource!.favoriteWebsitesList
         }
     }
 
@@ -63,35 +70,29 @@ class PrimaryViewController: BaseViewController, TableFunctionable, AlertViewPre
 
     @objc private func categoryIndexTapped(_ sender: UISegmentedControl) {
         categoryIndex = sender.selectedSegmentIndex
+        favoriteWebsitesList = webSitesTableViewDataSource!.favoriteWebsitesList
     }
 
     @objc private func addBarButtonTapped() {
         presentAddWebSiteActivity { [unowned self] websiteTitleString, websiteURLString in
-            websitesList.append(Website(title: websiteTitleString, urlString: websiteURLString, isLiked: false))
+            viewModel.append(website: Website(title: websiteTitleString, urlString: websiteURLString, isLiked: false))
+//            websitesList.append(Website(title: websiteTitleString, urlString: websiteURLString, isLiked: false))
             webSitesTableViewDataSource?.data.append(Website(title: websiteTitleString, urlString: websiteURLString, isLiked: false))
             websitesTableView.reloadData()
             print(websiteTitleString, " and ", websiteURLString)
         }
     }
 
-    func didTapLiked(atIndex index: Int, isLiked: Bool) {
-        if isLiked {
-            favoriteWebsitesList.append(websitesList[index])
-        } else {
-            favoriteWebsitesList.remove(at: index)
-        }
-        print("favoriteWebsitesList is ", favoriteWebsitesList)
-        websitesTableView.reloadData()
-    }
-
     func selectedCell(index: Int) {
-        let secondaryVC = parent?.splitViewController?.viewControllers[1] as! SecondaryViewController
-        secondaryVC.webPageURLString = websitesList[index].urlString
+        let secondaryVC = splitViewController?.viewControllers[1] as! SecondaryViewController
+        print("index of secondaryVC ", index)
+        secondaryVC.webPageURLString = viewModel.websitesList[index].urlString
     }
 
     private func configureViews() {
         webSitesTableViewDelegate = TableViewDelegate(withDelegate: self)
-        webSitesTableViewDataSource = TableViewDataSource()
+        webSitesTableViewDataSource = TableViewDataSource(viewModel: viewModel)
+
         websitesTableView.delegate = webSitesTableViewDelegate
         websitesTableView.dataSource = webSitesTableViewDataSource
 

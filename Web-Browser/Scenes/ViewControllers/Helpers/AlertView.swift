@@ -11,14 +11,13 @@ protocol AlertViewPresentable {
 
 extension AlertViewPresentable where Self: UIViewController {
     func presentAddWebSiteActivity(completion: @escaping (String, String) -> Void) {
-        let alertController = UIAlertController(title: "Add Place",message: nil, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Add Website",message: nil, preferredStyle: .alert)
 
         alertController.addTextField { field in
             field.placeholder = "Type title for Website"
-//            field.delegate = self
         }
         alertController.addTextField { field in
-            field.placeholder = "Type name the website URL"
+            field.placeholder = "Type the website URL"
         }
 
         let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
@@ -29,7 +28,10 @@ extension AlertViewPresentable where Self: UIViewController {
             }
         })
 
+        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+
         alertController.addAction(saveAction)
+        alertController.addAction(cancel)
         alertController.view.addSubview(UIView())
         present(alertController, animated: false)
     }
