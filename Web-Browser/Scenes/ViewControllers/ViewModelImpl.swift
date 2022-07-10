@@ -9,10 +9,8 @@ class ViewModelImpl: ViewModel {
     private let managedContext = AppDelegate.sharedAppDelegate.coreDataStack.managedContext
     private let persistentContainer = AppDelegate.sharedAppDelegate.coreDataStack
     var websitesList: [Website] = []
+    var favoriteWebSitesList: [Website] = []
     var coreDataObjects = [NSManagedObject]()
-    init() {
-        loadSavedData()
-    }
 
     private func loadSavedData() {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Websites")
@@ -25,6 +23,9 @@ class ViewModelImpl: ViewModel {
                 let title = website.value(forKey: "title") as! String
                 let urlString = website.value(forKey: "urlString") as! String
                 websitesList.append(Website(title: title, urlString: urlString, isLiked: isLiked))
+                if isLiked {
+                    favoriteWebSitesList.append(Website(title: title, urlString: urlString, isLiked: isLiked))
+                }
             }
         } catch {
             print("Error fetching data")
@@ -41,6 +42,17 @@ class ViewModelImpl: ViewModel {
         persistentContainer.saveContext()
     }
 
+    func likeTapped(index: Int, isLiked: Bool) {
+        let website = websitesList[index]
+        if isLiked == true {
+            favoriteWebSitesList.append(Website(title: website.title, urlString: website.urlString, isLiked: true))
+        } else {
+            favoriteWebSitesList.popLast()
+            remove(website: website)
+        }
+//        append(website: Website(title: website.title, urlString: website.urlString, isLiked: isLiked))
+    }
+
     func remove(website: Website) {
         websitesList = websitesList._filter {
             $0 !== website
@@ -48,12 +60,15 @@ class ViewModelImpl: ViewModel {
         var index: Int = 0
         for (objectIndex, object) in coreDataObjects.enumerated() {
             let title = object.value(forKey: "title") as! String
-            print(title)
             if website.title == title {
                 index = objectIndex
             }
         }
         managedContext.delete(coreDataObjects[index])
         persistentContainer.saveContext()
+    }
+
+    init() {
+        loadSavedData()
     }
 }

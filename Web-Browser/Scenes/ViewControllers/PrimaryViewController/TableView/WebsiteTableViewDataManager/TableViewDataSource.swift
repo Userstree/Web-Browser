@@ -9,7 +9,7 @@ class TableViewDataSource: NSObject, UITableViewDataSource, WebsiteLikeButtonDel
     var favoriteWebsitesList = [Website]()
     var data = [Website]() {
         didSet {
-//            print("dataHasChanged \n")
+
         }
     }
 
@@ -17,6 +17,7 @@ class TableViewDataSource: NSObject, UITableViewDataSource, WebsiteLikeButtonDel
 
     init(viewModel: ViewModel) {
         data = viewModel.websitesList
+        favoriteWebsitesList = viewModel.favoriteWebSitesList
         self.viewModel = viewModel
     }
 
@@ -35,9 +36,16 @@ class TableViewDataSource: NSObject, UITableViewDataSource, WebsiteLikeButtonDel
     func didTapLiked(atIndex index: Int, isLiked: Bool) {
         if isLiked {
             favoriteWebsitesList.append(data[index])
-            data[index].isLiked = !data[index].isLiked
+            data[index].isLiked = true
+            viewModel.likeTapped(index: index, isLiked: isLiked)
         } else {
-//            favoriteWebsitesList.popLast()
+            if favoriteWebsitesList.count > 1 {
+                viewModel.likeTapped(index: index, isLiked: isLiked)
+                favoriteWebsitesList.remove(at: index)
+            } else {
+                viewModel.likeTapped(index: index, isLiked: isLiked)
+                favoriteWebsitesList.popLast()
+            }
         }
     }
 

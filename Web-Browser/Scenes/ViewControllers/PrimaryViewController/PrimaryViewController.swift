@@ -10,34 +10,24 @@ import UIKit
 
 class PrimaryViewController: BaseViewController, TableViewControllerDelegate, AlertViewPresentable {
     private var viewModel: ViewModel!
+    var favoriteWebsitesList = [Website]()
 
-    init(viewModel: ViewModel) {
-        super.init(nibName: nil, bundle: nil)
-        self.viewModel = viewModel
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private var categoryIndex: Int = 0 {
         didSet {
             if categoryIndex == 0 {
                 webSitesTableViewDataSource?.data = viewModel.websitesList
             } else {
-                webSitesTableViewDataSource?.data = favoriteWebsitesList
+                webSitesTableViewDataSource?.data = viewModel.favoriteWebSitesList
             }
             websitesTableView.reloadData()
         }
     }
 
-    var favoriteWebsitesList = [Website]()
-
     private var webSitesTableViewDelegate: TableViewDelegate?
     private var webSitesTableViewDataSource: TableViewDataSource? = nil {
         didSet {
-            websitesTableView.reloadData()
             favoriteWebsitesList = webSitesTableViewDataSource!.favoriteWebsitesList
+            websitesTableView.reloadData()
         }
     }
 
@@ -70,22 +60,18 @@ class PrimaryViewController: BaseViewController, TableViewControllerDelegate, Al
 
     @objc private func categoryIndexTapped(_ sender: UISegmentedControl) {
         categoryIndex = sender.selectedSegmentIndex
-        favoriteWebsitesList = webSitesTableViewDataSource!.favoriteWebsitesList
     }
 
     @objc private func addBarButtonTapped() {
         presentAddWebSiteActivity { [unowned self] websiteTitleString, websiteURLString in
             viewModel.append(website: Website(title: websiteTitleString, urlString: websiteURLString, isLiked: false))
-//            websitesList.append(Website(title: websiteTitleString, urlString: websiteURLString, isLiked: false))
             webSitesTableViewDataSource?.data.append(Website(title: websiteTitleString, urlString: websiteURLString, isLiked: false))
             websitesTableView.reloadData()
-            print(websiteTitleString, " and ", websiteURLString)
         }
     }
 
     func selectedCell(index: Int) {
         let secondaryVC = splitViewController?.viewControllers[1] as! SecondaryViewController
-        print("index of secondaryVC ", index)
         secondaryVC.webPageURLString = viewModel.websitesList[index].urlString
     }
 
@@ -99,6 +85,7 @@ class PrimaryViewController: BaseViewController, TableViewControllerDelegate, Al
         [websitesSegmentedControl, websitesTableView].forEach(view.addSubview)
         makeConstraints()
     }
+
     private func makeConstraints() {
         NSLayoutConstraint.activate([
             websitesSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -109,5 +96,14 @@ class PrimaryViewController: BaseViewController, TableViewControllerDelegate, Al
             websitesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             websitesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+
+    init(viewModel: ViewModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel = viewModel
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

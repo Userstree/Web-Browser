@@ -21,7 +21,6 @@ class WebsiteTableViewCell: UITableViewCell {
             } else {
                 likeButton.setImage(UIImage(systemName: "heart")!, for: .normal)
             }
-            delegate?.didTapLiked(atIndex: cellIndex, isLiked: isLiked)
         }
     }
 
@@ -46,7 +45,7 @@ class WebsiteTableViewCell: UITableViewCell {
 
     @objc private func likeButtonTapped() {
         isLiked = !isLiked
-        delegate?.didTapLiked(atIndex: 1,isLiked: isLiked)
+        delegate?.didTapLiked(atIndex: cellIndex,isLiked: isLiked)
     }
 
     func configure(with dataSource: TableCellDataSource, index: Int) {
